@@ -1,25 +1,22 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
-import { motion, useMotionValue, useSpring } from 'framer-motion'
+import { AnimatePresence, motion, useMotionValue, useSpring } from 'framer-motion'
 import { TextHoverEffect } from '@/ui/text-hover-effect'
 import { SplineScene } from '@/components/SplineScene'
 import { GlassButton } from '@/components/GlassButton'
 import Reveal from '@/components/Reveal'
 import { Spotlight } from '@/components/ui/spotlight-new'
 import { Timeline } from '@/components/ui/timeline'
-import { SparklesCore } from '@/components/ui/sparkles'
 
 const SPLINE_ROBOT_URL = 'https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode'
 
 const galleryPhotos = import.meta.glob('/gallery/photos/*.{png,jpg,jpeg,webp}', { eager: true, import: 'default' })
-const ABOUT_PHOTO = galleryPhotos['/gallery/photos/Screen Shot 2026-05-10 at 9.43.15 AM.png']
+// Lead photo first, then the rest (excluding it) — cycles every 5s.
+const LEAD_PHOTO = galleryPhotos['/gallery/photos/Screen Shot 2026-05-10 at 9.46.40 AM.png']
+const ABOUT_PHOTOS = [LEAD_PHOTO, ...Object.entries(galleryPhotos)
+  .filter(([k]) => k !== '/gallery/photos/Screen Shot 2026-05-10 at 9.46.40 AM.png')
+  .map(([, v]) => v)].filter(Boolean)
 
 function Hero() {
-  const [showSparkles, setShowSparkles] = useState(false)
-  useEffect(() => {
-    const t = setTimeout(() => setShowSparkles(true), 4200)
-    return () => clearTimeout(t)
-  }, [])
-
   return (
     <section className="relative min-h-[100dvh] w-full overflow-hidden">
       <Spotlight
@@ -32,43 +29,23 @@ function Hero() {
       </div>
 
       <div
-        className="absolute right-0 top-0 h-[100dvh] w-full md:w-[62vw] z-0 pointer-events-none"
+        className="absolute right-0 top-0 h-[100dvh] w-full md:w-[62vw] z-0"
         style={{ WebkitMaskImage: 'linear-gradient(to bottom, #000 0%, #000 78%, transparent 100%)', maskImage: 'linear-gradient(to bottom, #000 0%, #000 78%, transparent 100%)' }}
       >
         <SplineScene scene={SPLINE_ROBOT_URL} className="absolute inset-0 w-full h-full" />
       </div>
 
-      <div className="relative z-10 min-h-[100dvh] flex flex-col justify-center px-[clamp(24px,5vw,96px)] py-20 max-w-[1400px] mx-auto">
-        <div className="relative w-full max-w-[640px]">
+      <div className="relative z-10 min-h-[100dvh] flex flex-col justify-center px-[clamp(24px,5vw,96px)] py-20 max-w-[1400px] mx-auto pointer-events-none">
+        <div className="w-full max-w-[640px]">
           <div className="h-[18vh] md:h-[22vh]">
             <TextHoverEffect text="MINJAE" />
           </div>
           <div className="h-[18vh] md:h-[22vh] -mt-2">
             <TextHoverEffect text="KIM" />
           </div>
-
-          {showSparkles && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1.4, ease: 'easeOut' }}
-              className="absolute inset-0 pointer-events-none"
-              aria-hidden="true"
-            >
-              <SparklesCore
-                background="transparent"
-                minSize={0.6}
-                maxSize={1.6}
-                particleDensity={70}
-                particleColor="#EAA44B"
-                speed={0.9}
-                className="h-full w-full"
-              />
-            </motion.div>
-          )}
         </div>
 
-        <p className="mt-10 text-lg md:text-xl text-neutral-300 max-w-md">
+        <p className="mt-10 text-lg md:text-xl text-neutral-300 max-w-md pointer-events-auto">
           Mechanical Engineering · University of Toronto
         </p>
       </div>
@@ -79,6 +56,13 @@ function Hero() {
 function About() {
   const wrapRef = useRef(null)
   const isTouch = typeof window !== 'undefined' && window.matchMedia('(hover: none)').matches
+
+  const [photoIdx, setPhotoIdx] = useState(0)
+  useEffect(() => {
+    if (ABOUT_PHOTOS.length < 2) return
+    const id = setInterval(() => setPhotoIdx((i) => (i + 1) % ABOUT_PHOTOS.length), 5000)
+    return () => clearInterval(id)
+  }, [])
 
   const x = useMotionValue(0)
   const y = useMotionValue(0)
@@ -125,16 +109,28 @@ function About() {
             onClick={onClick}
             className="relative w-full aspect-[5/6] rounded-3xl overflow-hidden border-l-[3px] border-ochre cursor-pointer bg-[#0A0A0A]"
           >
-            {ABOUT_PHOTO && (
-              <img src={ABOUT_PHOTO} alt="Minjae" draggable={false} className="absolute inset-0 w-full h-full object-cover select-none pointer-events-none" />
-            )}
+            <AnimatePresence initial={false} mode="popLayout">
+              <motion.img
+                key={photoIdx}
+                src={ABOUT_PHOTOS[photoIdx]}
+                alt="Minjae"
+                draggable={false}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.9, ease: 'easeInOut' }}
+                className="absolute inset-0 w-full h-full object-cover select-none pointer-events-none"
+              />
+            </AnimatePresence>
             <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-black/15 pointer-events-none" />
             {!isTouch && (
               <motion.div className="absolute top-0 left-0 pointer-events-none will-change-transform" style={{ x: xs, y: ys }}>
                 <div className="-translate-x-1/2 -translate-y-1/2">
                   <GlassButton size="default">
-                    <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8Z"/></svg>
-                    Let's Chat
+                    <span style={{ color: '#FFFFFF' }} className="inline-flex items-center gap-2">
+                      <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8Z"/></svg>
+                      Let's Chat
+                    </span>
                   </GlassButton>
                 </div>
               </motion.div>
