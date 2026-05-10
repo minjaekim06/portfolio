@@ -17,10 +17,10 @@ import Projects from './pages/Projects.jsx'
 import Experience from './pages/Experience.jsx'
 import Gallery from './pages/Gallery.jsx'
 
-const iconCls = 'h-full w-full text-neutral-300 dark:text-neutral-300'
+const iconCls = 'h-full w-full text-neutral-500 dark:text-neutral-300'
 
 function DockShell() {
-  const items = [
+  const links = [
     { title: 'Home',       icon: <IconHome className={iconCls} />,           href: '#/' },
     { title: 'Projects',   icon: <IconLayoutGrid className={iconCls} />,     href: '#/projects' },
     { title: 'Experience', icon: <IconStack3 className={iconCls} />,         href: '#/experience' },
@@ -31,7 +31,10 @@ function DockShell() {
   ]
   return (
     <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[1000]">
-      <FloatingDock items={items} />
+      <FloatingDock
+        mobileClassName="translate-y-20"
+        items={links}
+      />
     </div>
   )
 }
