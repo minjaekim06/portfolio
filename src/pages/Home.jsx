@@ -5,16 +5,21 @@ import { SplineScene } from '@/components/SplineScene'
 import { GlassButton } from '@/components/GlassButton'
 import { AnimatedText } from '@/components/AnimatedText'
 import Reveal from '@/components/Reveal'
+import { Spotlight } from '@/components/ui/spotlight-new'
+import { BackgroundGradient } from '@/components/ui/background-gradient'
 
 const SPLINE_ROBOT_URL = 'https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode'
 
 function Hero() {
   return (
     <section className="relative min-h-[100dvh] w-full overflow-hidden">
+      <Spotlight
+        gradientFirst="radial-gradient(68.54% 68.72% at 55.02% 31.46%, hsla(220, 100%, 65%, 0.18) 0, hsla(220, 100%, 50%, 0.06) 50%, hsla(220, 100%, 45%, 0) 80%)"
+        gradientSecond="radial-gradient(50% 50% at 50% 50%, hsla(220, 100%, 60%, 0.12) 0, hsla(220, 100%, 50%, 0.04) 80%, transparent 100%)"
+        gradientThird="radial-gradient(50% 50% at 50% 50%, hsla(220, 100%, 60%, 0.08) 0, hsla(220, 100%, 45%, 0.02) 80%, transparent 100%)"
+      />
       <div aria-hidden className="pointer-events-none absolute inset-0 z-0">
         <div className="absolute inset-0 [background-image:linear-gradient(to_right,rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.04)_1px,transparent_1px)] [background-size:64px_64px] [mask-image:radial-gradient(ellipse_at_50%_40%,#000_30%,transparent_75%)]" />
-        <div className="absolute -left-32 -top-32 h-[480px] w-[480px] rounded-full blur-[80px] opacity-60 [background:radial-gradient(circle,rgba(0,71,171,0.7),transparent_70%)]" />
-        <div className="absolute -right-40 -bottom-40 h-[540px] w-[540px] rounded-full blur-[80px] opacity-50 [background:radial-gradient(circle,rgba(31,79,255,0.45),transparent_70%)]" />
       </div>
 
       <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-6 items-center px-[clamp(24px,5vw,96px)] pt-24">
@@ -91,7 +96,7 @@ function About() {
 }
 
 function Achievement3D({ title, body, stat, label, featured = false }) {
-  return (
+  const card = (
     <CardContainer containerClassName={featured ? 'py-4 md:col-span-2' : 'py-4'}>
       <CardBody className={`${featured ? 'h-auto md:h-[28rem] w-full md:w-[44rem]' : 'h-auto md:h-[26rem] w-full md:w-[22rem]'} relative bg-[#0A0A0A] border rounded-3xl p-6 md:p-8 group/card transition-shadow ${featured ? 'border-cobalt-bright/60 hover:shadow-[0_30px_80px_rgba(31,79,255,0.25)]' : 'border-white/10 hover:shadow-[0_30px_80px_rgba(31,79,255,0.18)] hover:border-cobalt-bright/40'}`}>
         <CardItem translateZ={60} className="mb-4 flex items-baseline gap-2">
@@ -106,6 +111,12 @@ function Achievement3D({ title, body, stat, label, featured = false }) {
         </CardItem>
       </CardBody>
     </CardContainer>
+  )
+  if (!featured) return card
+  return (
+    <BackgroundGradient containerClassName="rounded-3xl" className="rounded-3xl bg-transparent p-0">
+      {card}
+    </BackgroundGradient>
   )
 }
 
