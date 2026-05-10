@@ -5,10 +5,17 @@ export default {
   theme: {
     extend: {
       colors: {
-        ochre: '#EAA44B',
-        sage: '#DAE3BB',
-        teal: '#6799A3',
-        navy: '#3A5173',
+        cobalt: {
+          DEFAULT: '#0047AB',
+          bright: '#1F4FFF',
+          50: '#E6EEFF',
+          100: '#B8CDFF',
+          400: '#3B6BFF',
+          500: '#1F4FFF',
+          600: '#0047AB',
+          700: '#003585',
+          900: '#001A4D',
+        },
       },
       fontFamily: {
         display: ['Fraunces', 'Instrument Serif', 'serif'],

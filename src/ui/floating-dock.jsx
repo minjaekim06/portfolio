@@ -59,7 +59,7 @@ function IconContainer({ mouseX, title, icon, href, to, accentActive }) {
       className={cn(
         "aspect-square rounded-full flex items-center justify-center relative",
         "bg-white/5 hover:bg-white/10 transition-colors",
-        active && "bg-ochre/15 ring-1 ring-ochre/50 shadow-[0_0_18px_rgba(103,153,163,0.45)]"
+        active && "bg-cobalt/20 ring-1 ring-cobalt-bright/60 shadow-[0_0_18px_rgba(31,79,255,0.45)]"
       )}
     >
       <AnimatePresence>
@@ -78,7 +78,7 @@ function IconContainer({ mouseX, title, icon, href, to, accentActive }) {
         style={{ width: wi, height: hi }}
         className={cn(
           "flex items-center justify-center text-neutral-300",
-          active && "text-ochre"
+          active && "text-cobalt-bright"
         )}
       >
         {icon}

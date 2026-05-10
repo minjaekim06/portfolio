@@ -3,37 +3,23 @@
 @tailwind utilities;
 
 :root {
-  --color-ochre:  #EAA44B;
-  --color-sage:   #DAE3BB;
-  --color-teal:   #6799A3;
-  --color-navy:   #3A5173;
+  --color-cobalt:       #0047AB;
+  --color-cobalt-bright:#1F4FFF;
 
-  --color-bg-primary:   #0A0A0A;
-  --color-bg-secondary: #111111;
-  --color-bg-surface:   #1A1A1A;
+  --color-bg-primary:   #000000;
+  --color-bg-secondary: #0A0A0A;
+  --color-bg-surface:   #111111;
 
-  --color-text-primary:   #F5F5F0;
-  --color-text-secondary: #A0A09A;
-  --color-text-muted:     #505050;
+  --color-text-primary:   #F5F5F5;
+  --color-text-secondary: #A0A0A0;
+  --color-text-muted:     #555555;
 
-  --color-accent-primary:   var(--color-ochre);
-  --color-accent-secondary: var(--color-teal);
+  --color-accent: var(--color-cobalt);
 
-  --space-1: 4px;
-  --space-2: 8px;
-  --space-3: 12px;
-  --space-4: 16px;
-  --space-6: 24px;
-  --space-8: 32px;
-  --space-12: 48px;
-  --space-16: 64px;
-  --space-24: 96px;
+  --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px;
+  --space-6: 24px; --space-8: 32px; --space-12: 48px; --space-16: 64px; --space-24: 96px;
 
-  --radius-sm:  4px;
-  --radius-md:  8px;
-  --radius-lg:  16px;
-  --radius-xl:  24px;
-  --radius-full: 9999px;
+  --radius-sm: 4px; --radius-md: 8px; --radius-lg: 16px; --radius-xl: 24px; --radius-full: 9999px;
 
   --font-display: 'Fraunces', 'Instrument Serif', ui-serif, Georgia, serif;
   --font-serif:   'Instrument Serif', 'Fraunces', ui-serif, Georgia, serif;
@@ -44,35 +30,25 @@
   --transition-base: 250ms ease;
   --transition-slow: 400ms ease;
 
-  /* shadcn-style tokens used by Aceternity primitives */
-  --background: 10 10 10;
-  --foreground: 245 245 240;
-  --border: 255 255 255 / 0.1;
+  --foreground: 245 245 245;
+  --background: 0 0 0;
 }
 
 html.light {
-  --color-bg-primary:   #F5F4EF;
-  --color-bg-secondary: #EDECEA;
-  --color-bg-surface:   #E3E2DC;
-  --color-text-primary:   #0A0A0A;
-  --color-text-secondary: #404040;
-  --color-text-muted:     #808080;
-  --background: 245 244 239;
-  --foreground: 10 10 10;
+  --color-bg-primary:   #FFFFFF;
+  --color-bg-secondary: #F4F4F4;
+  --color-bg-surface:   #E8E8E8;
+  --color-text-primary: #000000;
+  --color-text-secondary:#333333;
+  --color-text-muted:   #888888;
+  --foreground: 0 0 0;
+  --background: 255 255 255;
 }
 
 html, body, #root { margin: 0; padding: 0; min-height: 100%; background: var(--color-bg-primary); color: var(--color-text-primary); }
 html { scroll-behavior: smooth; transition: background-color var(--transition-slow), color var(--transition-slow); }
 body { font-family: var(--font-body); }
-::selection { background: var(--color-ochre); color: var(--color-bg-primary); }
-
-@layer base {
-  /* shadcn-compatible variable references for Aceternity components */
-  :root {
-    --foreground: 0 0% 96%;
-    --background: 0 0% 4%;
-  }
-}
+::selection { background: var(--color-cobalt); color: #fff; }
 
 .route-fade { animation: routeFade 350ms cubic-bezier(.2,.7,.2,1) both; }
 @keyframes routeFade { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -80,4 +56,4 @@ body { font-family: var(--font-body); }
 ::-webkit-scrollbar { width: 10px; height: 10px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--color-bg-surface); border-radius: 9999px; }
-::-webkit-scrollbar-thumb:hover { background: var(--color-teal); }
+::-webkit-scrollbar-thumb:hover { background: var(--color-cobalt); }
