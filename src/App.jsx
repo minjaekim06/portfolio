@@ -25,9 +25,9 @@ function DockShell() {
     { title: 'Projects',   icon: <IconLayoutGrid className={iconCls} />,     href: '#/projects' },
     { title: 'Experience', icon: <IconStack3 className={iconCls} />,         href: '#/experience' },
     { title: 'Gallery',    icon: <IconPhoto className={iconCls} />,          href: '#/gallery' },
-    { title: 'YouTube',    icon: <IconBrandYoutube className={iconCls} />,   href: '#' },
-    { title: 'LinkedIn',   icon: <IconBrandLinkedin className={iconCls} />,  href: '#' },
-    { title: 'Resume',     icon: <IconFileText className={iconCls} />,       href: '/portfolio/resume.pdf' },
+    { title: 'YouTube',    icon: <IconBrandYoutube className={iconCls} />,   href: 'https://www.youtube.com/@crodiess', target: '_blank', rel: 'noreferrer' },
+    { title: 'LinkedIn',   icon: <IconBrandLinkedin className={iconCls} />,  href: 'https://www.linkedin.com/in/minjaekim060103/', target: '_blank', rel: 'noreferrer' },
+    { title: 'Resume',     icon: <IconFileText className={iconCls} />,       href: '/portfolio/resume.pdf', target: '_blank', rel: 'noreferrer' },
   ]
   return (
     <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[1000]">
