@@ -5,7 +5,8 @@ import { SplineScene } from '@/components/SplineScene'
 import { GlassButton } from '@/components/GlassButton'
 import Reveal from '@/components/Reveal'
 import { Spotlight } from '@/components/ui/spotlight-new'
-import { Timeline } from '@/components/ui/timeline'
+import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeline-component'
+import 'react-vertical-timeline-component/style.min.css'
 
 const SPLINE_ROBOT_URL = 'https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode'
 
@@ -162,66 +163,64 @@ function About() {
 }
 
 function Achievements() {
-  const data = [
+  const items = [
     {
-      title: '2022',
-      content: (
-        <>
-          <p className="font-mono text-[11px] tracking-[0.16em] uppercase text-ochre mb-3">Highschool · capstone</p>
-          <h3 className="font-display text-2xl md:text-3xl text-white mb-2 tracking-tight">Governor General's Academic Award</h3>
-          <p className="text-sm md:text-base text-neutral-400 leading-relaxed max-w-prose">
-            Highest average in my graduating class — <span className="text-ochre">98.9%</span> across grades 10–12.
-          </p>
-        </>
-      ),
+      date: '2022 · Highschool',
+      title: "Governor General's Academic Award",
+      org: 'Grades 10–12 · capstone',
+      bullets: ['Highest average in my graduating class — 98.9% across grades 10–12.'],
     },
     {
-      title: '2023',
-      content: (
-        <>
-          <p className="font-mono text-[11px] tracking-[0.16em] uppercase text-ochre mb-3">UofT · entry</p>
-          <h3 className="font-display text-2xl md:text-3xl text-white mb-2 tracking-tight">UofT Scholar's Program</h3>
-          <p className="text-sm md:text-base text-neutral-400 leading-relaxed max-w-prose">
-            One of ~900 incoming students recognised with a <span className="text-ochre">$10,000</span> admission award.
-          </p>
-        </>
-      ),
+      date: '2023 · UofT entry',
+      title: "UofT Scholar's Program",
+      org: 'University of Toronto',
+      bullets: ['One of ~900 incoming students recognised with a $10,000 admission award.'],
     },
     {
-      title: '2024 Fall',
-      content: (
-        <>
-          <p className="font-mono text-[11px] tracking-[0.16em] uppercase text-ochre mb-3">Dean's List</p>
-          <h3 className="font-display text-2xl md:text-3xl text-white mb-2 tracking-tight">First semester at UofT</h3>
-          <p className="text-sm md:text-base text-neutral-400 leading-relaxed max-w-prose">
-            2.75 credits · <span className="text-ochre">3.80 sGPA</span> · 84.8% average.
-          </p>
-        </>
-      ),
+      date: '2024 Fall · Dean\'s List',
+      title: 'First semester at UofT',
+      org: 'Faculty of Applied Science & Engineering',
+      bullets: ['2.75 credits completed', '3.80 sGPA · 84.8% average'],
     },
     {
-      title: '2025 Winter',
-      content: (
-        <>
-          <p className="font-mono text-[11px] tracking-[0.16em] uppercase text-ochre mb-3">Dean's List</p>
-          <h3 className="font-display text-2xl md:text-3xl text-white mb-2 tracking-tight">Second semester at UofT</h3>
-          <p className="text-sm md:text-base text-neutral-400 leading-relaxed max-w-prose">
-            2.15 credits · <span className="text-ochre">3.93 sGPA</span> · 88.3% average.
-          </p>
-        </>
-      ),
+      date: '2025 Winter · Dean\'s List',
+      title: 'Second semester at UofT',
+      org: 'Faculty of Applied Science & Engineering',
+      bullets: ['2.15 credits completed', '3.93 sGPA · 88.3% average'],
     },
   ]
 
+  const cardStyle = { background: '#11141B', color: '#E5E7EB', boxShadow: '0 18px 50px rgba(0,0,0,0.45)', border: '1px solid rgba(234,164,75,0.15)', borderRadius: '14px' }
+  const arrowStyle = { borderRight: '7px solid #11141B' }
+  const iconStyle = { background: '#0A0A0A', color: '#EAA44B', boxShadow: '0 0 0 4px rgba(234,164,75,0.35), inset 0 2px 0 rgba(255,255,255,0.05), 0 3px 12px rgba(234,164,75,0.25)' }
+
   return (
-    <section className="px-[clamp(16px,4vw,72px)] pt-12 pb-20 max-w-[1100px] mx-auto">
-      <div className="mb-2 max-w-2xl px-4 md:px-10">
+    <section className="px-[clamp(16px,4vw,72px)] pt-16 pb-24 max-w-[1100px] mx-auto">
+      <div className="mb-10 max-w-2xl text-center mx-auto">
         <Reveal>
-          <p className="font-mono text-[11px] tracking-[0.16em] uppercase text-ochre mb-3 inline-flex items-center gap-2 before:content-[''] before:w-6 before:h-px before:bg-ochre">A few wins</p>
-          <h2 className="font-display text-[clamp(28px,4vw,44px)] font-light tracking-tight text-white">School things, in order.</h2>
+          <p className="font-mono text-[11px] tracking-[0.16em] uppercase text-ochre mb-3">My career pathway</p>
+          <h2 className="font-display text-[clamp(32px,5vw,56px)] font-light tracking-tight text-white">Work &amp; School.</h2>
         </Reveal>
       </div>
-      <Timeline data={data} />
+      <VerticalTimeline lineColor="rgba(234,164,75,0.35)">
+        {items.map((it) => (
+          <VerticalTimelineElement
+            key={it.title}
+            date={it.date}
+            dateClassName="!font-mono !text-[12px] !tracking-[0.12em] !uppercase !text-neutral-400"
+            contentStyle={cardStyle}
+            contentArrowStyle={arrowStyle}
+            iconStyle={iconStyle}
+            icon={<span style={{ display: 'block', width: 14, height: 14, borderRadius: 999, background: '#EAA44B', margin: 'auto', marginTop: 13 }} />}
+          >
+            <h3 className="font-display text-xl md:text-2xl text-white tracking-tight mb-1">{it.title}</h3>
+            <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-ochre/80 mb-3">{it.org}</p>
+            <ul className="text-sm text-neutral-300 leading-relaxed list-disc pl-4 space-y-1">
+              {it.bullets.map((b) => <li key={b}>{b}</li>)}
+            </ul>
+          </VerticalTimelineElement>
+        ))}
+      </VerticalTimeline>
     </section>
   )
 }
