@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { CardBody, CardContainer, CardItem } from '@/ui/3d-card'
+import { CardBody, CardContainer, CardItem } from '@/components/ui/3d-card'
 import Reveal from '@/components/Reveal'
 import { AnimatedText } from '@/components/AnimatedText'
 import { ContainerScroll } from '@/components/ContainerScroll'

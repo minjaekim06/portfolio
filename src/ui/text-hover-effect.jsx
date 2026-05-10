@@ -31,9 +31,9 @@ export const TextHoverEffect = ({ text, duration }) => {
         <linearGradient id="textGradient" gradientUnits="userSpaceOnUse" cx="50%" cy="50%" r="25%">
           {hovered && (
             <>
-              <stop offset="0%" stopColor="#1F4FFF" />
-              <stop offset="50%" stopColor="#0047AB" />
-              <stop offset="100%" stopColor="#1F4FFF" />
+              <stop offset="0%" stopColor="#F2C580" />
+              <stop offset="50%" stopColor="#EAA44B" />
+              <stop offset="100%" stopColor="#F2C580" />
             </>
           )}
         </linearGradient>
@@ -53,10 +53,10 @@ export const TextHoverEffect = ({ text, duration }) => {
         </mask>
       </defs>
       <text x="50%" y="50%" textAnchor="middle" dominantBaseline="middle" strokeWidth="0.3"
-        className="fill-transparent stroke-neutral-800 font-[helvetica] text-7xl font-bold"
+        className="fill-transparent stroke-neutral-500 font-[helvetica] text-7xl font-bold"
         style={{ opacity: hovered ? 0.7 : 0 }}>{text}</text>
       <motion.text x="50%" y="50%" textAnchor="middle" dominantBaseline="middle" strokeWidth="0.3"
-        className="fill-transparent stroke-neutral-800 font-[helvetica] text-7xl font-bold"
+        className="fill-transparent stroke-neutral-500 font-[helvetica] text-7xl font-bold"
         initial={{ strokeDashoffset: 1000, strokeDasharray: 1000 }}
         animate={{ strokeDashoffset: 0, strokeDasharray: 1000 }}
         transition={{ duration: 4, ease: "easeInOut" }}>{text}</motion.text>
