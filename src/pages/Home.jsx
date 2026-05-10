@@ -29,10 +29,12 @@ function Hero() {
       </div>
 
       <div
-        className="absolute right-0 top-0 h-[100dvh] w-full md:w-[62vw] z-0"
+        className="absolute right-0 top-0 h-[100dvh] w-full md:w-[68vw] z-0"
         style={{ WebkitMaskImage: 'linear-gradient(to bottom, #000 0%, #000 78%, transparent 100%)', maskImage: 'linear-gradient(to bottom, #000 0%, #000 78%, transparent 100%)' }}
       >
-        <SplineScene scene={SPLINE_ROBOT_URL} className="absolute inset-0 w-full h-full" />
+        <div className="absolute inset-0" style={{ transform: 'scale(0.82)', transformOrigin: 'center center' }}>
+          <SplineScene scene={SPLINE_ROBOT_URL} className="absolute inset-0 w-full h-full" />
+        </div>
       </div>
 
       <div className="relative z-10 min-h-[100dvh] flex flex-col justify-center px-[clamp(24px,5vw,96px)] py-20 max-w-[1400px] mx-auto pointer-events-none">
