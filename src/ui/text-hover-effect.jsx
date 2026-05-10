@@ -2,11 +2,33 @@
 import React, { useId } from "react";
 import { motion } from "framer-motion";
 
-// Stroke draws on mount (4s); letters are then filled with a continuously
-// flowing gold gradient (animateTransform on a tiled gradient, so the
-// highlight is always somewhere on screen).
-export const TextHoverEffect = ({ text, duration = 4 }) => {
-  const gradId = useId().replace(/:/g, "");
+// Stroke draws on mount (4s), then a pattern of horizontal "coursing" gold
+// lines flows continuously through the letter shapes. Lines vary in opacity
+// (mirrors the CanvasText API: colors[]/lineGap/animationDuration) and the
+// pattern is translated vertically with animateTransform so the highlight
+// is always moving across the glyphs.
+export const TextHoverEffect = ({
+  text,
+  duration = 4,
+  colors = [
+    "rgba(234,164,75,1)",
+    "rgba(234,164,75,0.9)",
+    "rgba(234,164,75,0.75)",
+    "rgba(255,228,176,0.95)",
+    "rgba(234,164,75,0.6)",
+    "rgba(234,164,75,0.45)",
+    "rgba(234,164,75,0.3)",
+    "rgba(234,164,75,0.18)",
+  ],
+  lineGap = 4,
+  animationDuration = 6,
+}) => {
+  const uid = useId().replace(/:/g, "");
+  const patternId = `gold-lines-${uid}`;
+
+  const bandHeight = 1.5;
+  const tileHeight = colors.length * lineGap;
+
   return (
     <svg
       width="100%"
@@ -17,26 +39,31 @@ export const TextHoverEffect = ({ text, duration = 4 }) => {
       className="select-none"
     >
       <defs>
-        <linearGradient
-          id={`gold-${gradId}`}
-          gradientUnits="userSpaceOnUse"
-          x1="0" y1="0" x2="160" y2="0"
-          spreadMethod="repeat"
+        <pattern
+          id={patternId}
+          patternUnits="userSpaceOnUse"
+          width="300"
+          height={tileHeight}
         >
-          <stop offset="0" stopColor="rgba(234,164,75,0.55)" />
-          <stop offset="0.45" stopColor="#EAA44B" />
-          <stop offset="0.5" stopColor="#FFE4B0" />
-          <stop offset="0.55" stopColor="#EAA44B" />
-          <stop offset="1" stopColor="rgba(234,164,75,0.55)" />
+          {colors.map((color, i) => (
+            <rect
+              key={i}
+              x="0"
+              y={i * lineGap}
+              width="300"
+              height={bandHeight}
+              fill={color}
+            />
+          ))}
           <animateTransform
-            attributeName="gradientTransform"
+            attributeName="patternTransform"
             type="translate"
-            from="0 0"
-            to="160 0"
-            dur="3.5s"
+            from={`0 0`}
+            to={`0 ${tileHeight}`}
+            dur={`${animationDuration}s`}
             repeatCount="indefinite"
           />
-        </linearGradient>
+        </pattern>
       </defs>
 
       {/* dim base stroke (always there, gives shape) */}
@@ -50,9 +77,9 @@ export const TextHoverEffect = ({ text, duration = 4 }) => {
         animate={{ strokeDashoffset: 0, strokeDasharray: 1000 }}
         transition={{ duration, ease: "easeInOut" }}>{text}</motion.text>
 
-      {/* always-flowing gold fill */}
+      {/* coursing gold lines as text fill */}
       <text x="2" y="50%" textAnchor="start" dominantBaseline="middle"
-        fill={`url(#gold-${gradId})`} className="font-[helvetica] text-7xl font-bold">{text}</text>
+        fill={`url(#${patternId})`} className="font-[helvetica] text-7xl font-bold">{text}</text>
     </svg>
   );
 };
