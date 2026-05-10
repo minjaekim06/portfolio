@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo, useCallback, useRef, memo } from 'react'
 import { useImagePreloader } from '@/hooks/useImagePreloader'
 
-const images = import.meta.glob('/src/photos/*.{png,jpg,jpeg,webp}', { eager: true, import: 'default' })
+const images = import.meta.glob('/gallery/photos/*.{png,jpg,jpeg,webp,avif}', { eager: true, import: 'default' })
 const IMAGE_URLS = Object.values(images)
 
 const LERP_FACTOR = 0.12

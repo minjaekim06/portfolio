@@ -3,12 +3,12 @@ import * as THREE from 'three'
 import Reveal from '@/components/Reveal'
 import { AnimatedText } from '@/components/AnimatedText'
 
-// ---- procedural microscope (cobalt + steel) -----------------------------
+// ---- procedural microscope (teal + steel) -----------------------------
 function buildMicroscope() {
   const g = new THREE.Group()
   const steel  = new THREE.MeshStandardMaterial({ color: 0xb6bcc4, metalness: 0.85, roughness: 0.32 })
   const dark   = new THREE.MeshStandardMaterial({ color: 0x111418, metalness: 0.6,  roughness: 0.5 })
-  const cobalt = new THREE.MeshStandardMaterial({ color: 0x0047AB, metalness: 0.5,  roughness: 0.35, emissive: 0x0a1840, emissiveIntensity: 0.25 })
+  const teal = new THREE.MeshStandardMaterial({ color: 0x0047AB, metalness: 0.5,  roughness: 0.35, emissive: 0x0a1840, emissiveIntensity: 0.25 })
   const glass  = new THREE.MeshStandardMaterial({ color: 0x1F4FFF, metalness: 0.9,  roughness: 0.05, transparent: true, opacity: 0.55 })
 
   const base = new THREE.Mesh(new THREE.CylinderGeometry(1.5, 1.7, 0.28, 56), dark);  base.position.y = 0.14; g.add(base)
@@ -16,21 +16,21 @@ function buildMicroscope() {
 
   const stage = new THREE.Mesh(new THREE.BoxGeometry(1.7, 0.08, 1.05), steel); stage.position.y = 0.95; g.add(stage)
   const slide = new THREE.Mesh(new THREE.BoxGeometry(0.9, 0.02, 0.32), glass); slide.position.set(0.05, 1.0, 0); g.add(slide)
-  const stageClip = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.10, 0.28), cobalt); stageClip.position.set(0.45, 1.04, 0); g.add(stageClip)
+  const stageClip = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.10, 0.28), teal); stageClip.position.set(0.45, 1.04, 0); g.add(stageClip)
 
   const col = new THREE.Mesh(new THREE.CylinderGeometry(0.20, 0.20, 2.6, 32), steel); col.position.set(-0.78, 1.5, 0); g.add(col)
   const arm = new THREE.Mesh(new THREE.BoxGeometry(1.5, 0.24, 0.42), steel); arm.position.set(0.05, 2.65, 0); g.add(arm)
-  const nut = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.22, 0.10, 16), cobalt); nut.position.set(-0.78, 2.78, 0); g.add(nut)
+  const nut = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.22, 0.10, 16), teal); nut.position.set(-0.78, 2.78, 0); g.add(nut)
   const tube = new THREE.Mesh(new THREE.CylinderGeometry(0.24, 0.24, 1.05, 28), steel); tube.position.set(0.6, 2.10, 0); g.add(tube)
   const ocu = new THREE.Mesh(new THREE.CylinderGeometry(0.15, 0.20, 0.36, 24), dark); ocu.position.set(0.6, 2.85, 0); ocu.rotation.x = -0.32; g.add(ocu)
-  const ocuRing = new THREE.Mesh(new THREE.TorusGeometry(0.16, 0.02, 8, 24), cobalt); ocuRing.position.set(0.6, 3.02, 0); ocuRing.rotation.x = Math.PI/2 - 0.32; g.add(ocuRing)
-  const turret = new THREE.Mesh(new THREE.CylinderGeometry(0.36, 0.30, 0.20, 28), cobalt); turret.position.set(0.6, 1.42, 0); g.add(turret)
+  const ocuRing = new THREE.Mesh(new THREE.TorusGeometry(0.16, 0.02, 8, 24), teal); ocuRing.position.set(0.6, 3.02, 0); ocuRing.rotation.x = Math.PI/2 - 0.32; g.add(ocuRing)
+  const turret = new THREE.Mesh(new THREE.CylinderGeometry(0.36, 0.30, 0.20, 28), teal); turret.position.set(0.6, 1.42, 0); g.add(turret)
   for (let i = 0; i < 4; i++) {
     const a = (i / 4) * Math.PI * 2
     const obj = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.06, 0.22, 18), dark)
     obj.position.set(0.6 + Math.cos(a) * 0.20, 1.24, Math.sin(a) * 0.20); g.add(obj)
   }
-  const knob = new THREE.Mesh(new THREE.CylinderGeometry(0.20, 0.20, 0.14, 28), cobalt)
+  const knob = new THREE.Mesh(new THREE.CylinderGeometry(0.20, 0.20, 0.14, 28), teal)
   knob.rotation.z = Math.PI / 2; knob.position.set(-0.96, 1.10, 0); g.add(knob)
   const cond = new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.10, 0.34, 24), glass); cond.position.set(0.05, 0.74, 0); g.add(cond)
 
@@ -95,7 +95,7 @@ function TreeNode({ node, depth = 0 }) {
   return (
     <div>
       <div
-        className="flex items-center gap-1.5 px-2 py-[3px] hover:bg-cobalt/15 rounded-sm cursor-pointer text-[12.5px] leading-tight"
+        className="flex items-center gap-1.5 px-2 py-[3px] hover:bg-teal/15 rounded-sm cursor-pointer text-[12.5px] leading-tight"
         onClick={() => has && setOpen(!open)}
         style={{ paddingLeft: 6 + depth * 12 }}
       >
@@ -241,11 +241,11 @@ export default function Experience() {
     <section className="px-[clamp(16px,4vw,72px)] pt-12 pb-32 max-w-[1500px] mx-auto">
       <header className="mb-10 max-w-2xl">
         <Reveal>
-          <p className="font-mono text-[11px] tracking-[0.16em] uppercase text-cobalt-bright mb-4 inline-flex items-center gap-2 before:content-[''] before:w-6 before:h-px before:bg-cobalt-bright">Workspace · 3D</p>
+          <p className="font-mono text-[11px] tracking-[0.16em] uppercase text-ochre mb-4 inline-flex items-center gap-2 before:content-[''] before:w-6 before:h-px before:bg-ochre">Workspace · 3D</p>
           <AnimatedText
             text="Experience."
             textClassName="font-display text-[clamp(56px,9vw,120px)] !text-left font-light tracking-tight !text-white"
-            underlineClassName="text-cobalt-bright"
+            underlineClassName="text-ochre"
           />
         </Reveal>
       </header>
@@ -266,11 +266,11 @@ export default function Experience() {
             </div>
           </div>
           <div className="h-7 px-3 flex items-center gap-4 text-[12px] text-neutral-300 bg-[#08101e] border-b border-black">
-            {TOP_MENUS.map(m => <span key={m} className="hover:text-cobalt-bright cursor-default">{m}</span>)}
+            {TOP_MENUS.map(m => <span key={m} className="hover:text-ochre cursor-default">{m}</span>)}
           </div>
           <div className="h-12 px-3 flex items-center gap-2 bg-[#0a1322] border-b border-black">
             {TOOLBAR.map((b, i) => b ? (
-              <button key={i} title={b.t} className="w-8 h-8 grid place-items-center rounded hover:bg-cobalt/20 text-neutral-300 hover:text-cobalt-bright">
+              <button key={i} title={b.t} className="w-8 h-8 grid place-items-center rounded hover:bg-teal/20 text-neutral-300 hover:text-ochre">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d={b.p} /></svg>
               </button>
             ) : <span key={i} className="w-px h-6 bg-[#0a1430] mx-1"/> )}
@@ -283,7 +283,7 @@ export default function Experience() {
           </div>
           <div className="h-8 px-2 flex items-end gap-0 bg-[#05070d] border-b border-black">
             {VIEW_TABS.map((t, i) => (
-              <span key={t} className={`px-3 h-7 leading-7 text-[11.5px] rounded-t-sm border-l border-r ${i === 0 ? 'bg-[#0a1322] text-white border-black' : 'text-neutral-500 border-transparent hover:bg-cobalt/10'}`}>{t}</span>
+              <span key={t} className={`px-3 h-7 leading-7 text-[11.5px] rounded-t-sm border-l border-r ${i === 0 ? 'bg-[#0a1322] text-white border-black' : 'text-neutral-500 border-transparent hover:bg-teal/10'}`}>{t}</span>
             ))}
           </div>
           <div className="grid grid-cols-[280px_1fr] min-h-[560px]">
@@ -301,8 +301,8 @@ export default function Experience() {
                 <span style={{color:'#85ff85'}}>Y</span>
                 <span style={{color:'#1F4FFF'}}>Z</span>
               </div>
-              <div className="absolute top-3 left-3 px-2.5 py-1 rounded bg-black/60 border border-cobalt/30 backdrop-blur text-[11px] text-neutral-300 font-mono">
-                <span className="text-cobalt-bright">●</span> Live render — Three.js
+              <div className="absolute top-3 left-3 px-2.5 py-1 rounded bg-black/60 border border-teal/30 backdrop-blur text-[11px] text-neutral-300 font-mono">
+                <span className="text-ochre">●</span> Live render — Three.js
               </div>
             </div>
           </div>
@@ -314,7 +314,7 @@ export default function Experience() {
             </div>
             <div className="flex gap-4">
               <span>Drag · Orbit  |  Scroll · Zoom  |  RMB · Pan</span>
-              <span className="text-cobalt-bright">●</span>
+              <span className="text-ochre">●</span>
             </div>
           </div>
         </div>
@@ -324,7 +324,7 @@ export default function Experience() {
 }
 
 function ViewCube() {
-  const face = "absolute inset-0 grid place-items-center text-[10px] font-mono tracking-wider text-neutral-200 bg-cobalt/40 border border-cobalt-bright/40"
+  const face = "absolute inset-0 grid place-items-center text-[10px] font-mono tracking-wider text-neutral-200 bg-teal/40 border border-ochre/40"
   return (
     <div className="w-full h-full" style={{ transformStyle: 'preserve-3d', transform: 'rotateX(-22deg) rotateY(36deg)', animation: 'cube-rot 18s linear infinite' }}>
       <style>{`@keyframes cube-rot { from { transform: rotateX(-22deg) rotateY(0deg); } to { transform: rotateX(-22deg) rotateY(360deg); } }`}</style>

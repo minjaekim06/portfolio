@@ -5,17 +5,10 @@ export default {
   theme: {
     extend: {
       colors: {
-        cobalt: {
-          DEFAULT: '#0047AB',
-          bright: '#1F4FFF',
-          50: '#E6EEFF',
-          100: '#B8CDFF',
-          400: '#3B6BFF',
-          500: '#1F4FFF',
-          600: '#0047AB',
-          700: '#003585',
-          900: '#001A4D',
-        },
+        ochre: { DEFAULT: '#EAA44B', soft: '#F2C580' },
+        sage:  { DEFAULT: '#DAE3BB', soft: '#EAEFD3' },
+        teal:  { DEFAULT: '#6799A3', soft: '#8CB3BC' },
+        navy:  { DEFAULT: '#3A5173', soft: '#4F6A91' },
       },
       fontFamily: {
         display: ['Fraunces', 'Instrument Serif', 'serif'],
