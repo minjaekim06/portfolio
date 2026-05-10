@@ -5,8 +5,8 @@ import { SplineScene } from '@/components/SplineScene'
 import { GlassButton } from '@/components/GlassButton'
 import Reveal from '@/components/Reveal'
 import { Spotlight } from '@/components/ui/spotlight-new'
-import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeline-component'
-import 'react-vertical-timeline-component/style.min.css'
+import { Timeline } from '@/components/ui/timeline'
+import { CardBody, CardContainer, CardItem } from '@/components/ui/3d-card'
 
 const SPLINE_ROBOT_URL = 'https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode'
 
@@ -26,7 +26,7 @@ function Hero() {
         gradientThird="radial-gradient(50% 50% at 50% 50%, hsla(33, 79%, 60%, 0.06) 0, hsla(33, 79%, 45%, 0.02) 80%, transparent 100%)"
       />
       <div aria-hidden className="pointer-events-none absolute inset-0 z-0">
-        <div className="absolute inset-0 [background-image:linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] [background-size:64px_64px] [mask-image:radial-gradient(ellipse_at_50%_40%,#000_30%,transparent_75%)]" />
+        <div className="absolute inset-0 [background-image:linear-gradient(to_right,var(--grid-line)_1px,transparent_1px),linear-gradient(to_bottom,var(--grid-line)_1px,transparent_1px)] [background-size:64px_64px] [mask-image:radial-gradient(ellipse_at_50%_40%,#000_30%,transparent_75%)]" />
       </div>
 
       <div
@@ -48,7 +48,7 @@ function Hero() {
           </div>
         </div>
 
-        <p className="mt-10 text-lg md:text-xl text-neutral-300 max-w-md pointer-events-auto">
+        <p className="mt-10 text-lg md:text-xl text-neutral-700 dark:text-neutral-300 max-w-md pointer-events-auto">
           Mechanical Engineering · University of Toronto
         </p>
       </div>
@@ -110,7 +110,7 @@ function About() {
             onMouseMove={onMove}
             onMouseLeave={onLeave}
             onClick={onClick}
-            className="relative w-full aspect-[5/6] rounded-3xl overflow-hidden border-l-[3px] border-ochre cursor-pointer bg-[#0A0A0A]"
+            className="relative w-full aspect-[5/6] rounded-3xl overflow-hidden border-l-[3px] border-ochre cursor-pointer bg-neutral-200 dark:bg-[#0A0A0A]"
           >
             <AnimatePresence initial={false} mode="popLayout">
               <motion.img
@@ -142,17 +142,17 @@ function About() {
 
           <div className="text-left">
             <p className="font-mono text-[11px] tracking-[0.16em] uppercase text-ochre mb-6 inline-flex items-center gap-2 before:content-[''] before:w-6 before:h-px before:bg-ochre">A little about me</p>
-            <h2 className="font-display italic font-light text-[clamp(32px,4.4vw,52px)] leading-[1.05] tracking-tight text-white mb-6">
+            <h2 className="font-display italic font-light text-[clamp(32px,4.4vw,52px)] leading-[1.05] tracking-tight text-neutral-900 dark:text-white mb-6">
               Hi, I'm Minjae <span className="text-ochre not-italic">—</span>
             </h2>
-            <p className="font-serif text-[clamp(18px,1.5vw,22px)] leading-[1.55] text-neutral-200/90 max-w-[58ch]">
-              I study mechanical engineering at the <span className="text-white">University of Toronto</span>, with
+            <p className="font-serif text-[clamp(18px,1.5vw,22px)] leading-[1.55] text-neutral-800 dark:text-neutral-200/90 max-w-[58ch]">
+              I study mechanical engineering at the <span className="text-neutral-900 dark:text-white">University of Toronto</span>, with
               a bioengineering minor, and I'm on the premed track.
             </p>
-            <p className="font-serif text-[clamp(18px,1.5vw,22px)] leading-[1.55] text-neutral-300/85 max-w-[58ch] mt-4">
+            <p className="font-serif text-[clamp(18px,1.5vw,22px)] leading-[1.55] text-neutral-700 dark:text-neutral-300/85 max-w-[58ch] mt-4">
               These days I'm helping build a <span className="text-ochre">low-cost dark-field microscope</span> so antimicrobial susceptibility testing can be run almost anywhere.
             </p>
-            <p className="font-serif text-[clamp(18px,1.5vw,22px)] leading-[1.55] text-neutral-400/85 max-w-[58ch] mt-4">
+            <p className="font-serif text-[clamp(18px,1.5vw,22px)] leading-[1.55] text-neutral-600 dark:text-neutral-400/85 max-w-[58ch] mt-4">
               Off-lab: volleyball, cooking, and making friends.
             </p>
           </div>
@@ -165,63 +165,87 @@ function About() {
 function Achievements() {
   const items = [
     {
-      date: '2022 · Highschool',
-      title: "Governor General's Academic Award",
-      org: 'Grades 10–12 · capstone',
-      bullets: ['Highest average in my graduating class — 98.9% across grades 10–12.'],
+      title: '2022',
+      content: (
+        <TimelineCard
+          eyebrow="Highschool · Capstone"
+          heading="Governor General's Academic Award"
+          bullets={['Highest average in my graduating class — 98.9% across grades 10–12.']}
+        />
+      ),
     },
     {
-      date: '2023 · UofT entry',
-      title: "UofT Scholar's Program",
-      org: 'University of Toronto',
-      bullets: ['One of ~900 incoming students recognised with a $10,000 admission award.'],
+      title: '2023',
+      content: (
+        <TimelineCard
+          eyebrow="University of Toronto · Admission"
+          heading="UofT Scholar's Program"
+          bullets={['One of ~900 incoming students recognised with a $10,000 admission award.']}
+        />
+      ),
     },
     {
-      date: '2024 Fall · Dean\'s List',
-      title: 'First semester at UofT',
-      org: 'Faculty of Applied Science & Engineering',
-      bullets: ['2.75 credits completed', '3.80 sGPA · 84.8% average'],
+      title: '2024',
+      content: (
+        <TimelineCard
+          eyebrow="Faculty of Applied Science & Engineering · Fall"
+          heading="Dean's List — first semester at UofT"
+          bullets={['2.75 credits completed', '3.80 sGPA · 84.8% average']}
+        />
+      ),
     },
     {
-      date: '2025 Winter · Dean\'s List',
-      title: 'Second semester at UofT',
-      org: 'Faculty of Applied Science & Engineering',
-      bullets: ['2.15 credits completed', '3.93 sGPA · 88.3% average'],
+      title: '2025',
+      content: (
+        <TimelineCard
+          eyebrow="Faculty of Applied Science & Engineering · Winter"
+          heading="Dean's List — second semester at UofT"
+          bullets={['2.15 credits completed', '3.93 sGPA · 88.3% average']}
+        />
+      ),
     },
   ]
 
-  const cardStyle = { background: '#11141B', color: '#E5E7EB', boxShadow: '0 18px 50px rgba(0,0,0,0.45)', border: '1px solid rgba(234,164,75,0.15)', borderRadius: '14px' }
-  const arrowStyle = { borderRight: '7px solid #11141B' }
-  const iconStyle = { background: '#0A0A0A', color: '#EAA44B', boxShadow: '0 0 0 4px rgba(234,164,75,0.35), inset 0 2px 0 rgba(255,255,255,0.05), 0 3px 12px rgba(234,164,75,0.25)' }
-
   return (
-    <section className="px-[clamp(16px,4vw,72px)] pt-16 pb-24 max-w-[1100px] mx-auto">
-      <div className="mb-10 max-w-2xl text-center mx-auto">
+    <section className="relative">
+      <div className="px-[clamp(16px,4vw,72px)] pt-16 max-w-[1100px] mx-auto text-center">
         <Reveal>
           <p className="font-mono text-[11px] tracking-[0.16em] uppercase text-ochre mb-3">My career pathway</p>
-          <h2 className="font-display text-[clamp(32px,5vw,56px)] font-light tracking-tight text-white">Work &amp; School.</h2>
+          <h2 className="font-display text-[clamp(32px,5vw,56px)] font-light tracking-tight text-neutral-900 dark:text-white">Work &amp; School.</h2>
         </Reveal>
       </div>
-      <VerticalTimeline lineColor="rgba(234,164,75,0.35)">
-        {items.map((it) => (
-          <VerticalTimelineElement
-            key={it.title}
-            date={it.date}
-            dateClassName="!font-mono !text-[12px] !tracking-[0.12em] !uppercase !text-neutral-400"
-            contentStyle={cardStyle}
-            contentArrowStyle={arrowStyle}
-            iconStyle={iconStyle}
-            icon={<span style={{ display: 'block', width: 14, height: 14, borderRadius: 999, background: '#EAA44B', margin: 'auto', marginTop: 13 }} />}
-          >
-            <h3 className="font-display text-xl md:text-2xl text-white tracking-tight mb-1">{it.title}</h3>
-            <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-ochre/80 mb-3">{it.org}</p>
-            <ul className="text-sm text-neutral-300 leading-relaxed list-disc pl-4 space-y-1">
-              {it.bullets.map((b) => <li key={b}>{b}</li>)}
-            </ul>
-          </VerticalTimelineElement>
-        ))}
-      </VerticalTimeline>
+      <Timeline data={items} />
     </section>
+  )
+}
+
+function TimelineCard({ eyebrow, heading, bullets }) {
+  return (
+    <CardContainer containerClassName="py-0 block" className="w-full">
+      <CardBody className="group/card relative h-auto w-full rounded-2xl border border-neutral-200 dark:border-white/10 bg-white/70 dark:bg-white/[0.03] backdrop-blur-sm p-6 md:p-8 shadow-[0_10px_40px_rgba(0,0,0,0.06)] dark:hover:shadow-2xl dark:hover:shadow-ochre/[0.08] dark:shadow-[0_18px_50px_rgba(0,0,0,0.45)]">
+        <CardItem
+          translateZ={40}
+          as="p"
+          className="font-mono text-[11px] uppercase tracking-[0.14em] text-ochre/90 mb-3"
+        >
+          {eyebrow}
+        </CardItem>
+        <CardItem
+          translateZ={70}
+          as="h3"
+          className="font-display text-xl md:text-2xl tracking-tight text-neutral-900 dark:text-white mb-4"
+        >
+          {heading}
+        </CardItem>
+        <CardItem
+          translateZ={50}
+          as="ul"
+          className="text-sm md:text-base leading-relaxed text-neutral-700 dark:text-neutral-300 list-disc pl-5 space-y-1"
+        >
+          {bullets.map((b) => <li key={b}>{b}</li>)}
+        </CardItem>
+      </CardBody>
+    </CardContainer>
   )
 }
 

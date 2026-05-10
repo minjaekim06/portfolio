@@ -53,6 +53,10 @@ html { scroll-behavior: smooth; transition: background-color var(--transition-sl
 body { font-family: var(--font-body); }
 ::selection { background: var(--color-ochre); color: #0A0A0A; }
 
+/* Theme-aware grid lines used by the Hero background */
+:root { --grid-line: rgba(255,255,255,0.04); }
+html.light { --grid-line: rgba(10,10,10,0.06); }
+
 .route-fade { animation: routeFade 350ms cubic-bezier(.2,.7,.2,1) both; }
 @keyframes routeFade { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 

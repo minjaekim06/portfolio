@@ -1,9 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import * as THREE from 'three'
-import Reveal from '@/components/Reveal'
-import { AnimatedText } from '@/components/AnimatedText'
 
-// ---- procedural microscope (teal + steel) -----------------------------
 function buildMicroscope() {
   const g = new THREE.Group()
   const steel  = new THREE.MeshStandardMaterial({ color: 0xb6bcc4, metalness: 0.85, roughness: 0.32 })
@@ -129,10 +126,24 @@ const TOOLBAR = [
 ]
 const VIEW_TABS = ['Sketch', 'Features', 'Surfaces', 'Sheet Metal', 'Assembly', 'Evaluate', 'DimXpert', 'Render Tools', 'SOLIDWORKS Add-Ins']
 
-export default function Experience() {
+function ViewCube() {
+  const face = "absolute inset-0 grid place-items-center text-[10px] font-mono tracking-wider text-neutral-200 bg-teal/40 border border-ochre/40"
+  return (
+    <div className="w-full h-full" style={{ transformStyle: 'preserve-3d', transform: 'rotateX(-22deg) rotateY(36deg)', animation: 'cube-rot 18s linear infinite' }}>
+      <style>{`@keyframes cube-rot { from { transform: rotateX(-22deg) rotateY(0deg); } to { transform: rotateX(-22deg) rotateY(360deg); } }`}</style>
+      <div className={face} style={{ transform: 'translateZ(44px)' }}>FRONT</div>
+      <div className={face} style={{ transform: 'rotateY(180deg) translateZ(44px)' }}>BACK</div>
+      <div className={face} style={{ transform: 'rotateY(90deg) translateZ(44px)' }}>RIGHT</div>
+      <div className={face} style={{ transform: 'rotateY(-90deg) translateZ(44px)' }}>LEFT</div>
+      <div className={face} style={{ transform: 'rotateX(90deg) translateZ(44px)' }}>TOP</div>
+      <div className={face} style={{ transform: 'rotateX(-90deg) translateZ(44px)' }}>BOT</div>
+    </div>
+  )
+}
+
+export default function SolidWorksWorkspace() {
   const mountRef = useRef(null)
   const [view, setView] = useState('Isometric')
-  useEffect(() => { window.scrollTo(0, 0) }, [])
 
   useEffect(() => {
     const mount = mountRef.current
@@ -181,7 +192,6 @@ export default function Experience() {
     const floor = new THREE.Mesh(new THREE.PlaneGeometry(60, 60), new THREE.MeshStandardMaterial({ color: 0x000000, metalness: 0.2, roughness: 0.95 }))
     floor.rotation.x = -Math.PI / 2; floor.receiveShadow = true; scene.add(floor)
 
-    // origin triad (red/green/blue is universal CAD; lets keep it readable)
     const triad = new THREE.Group()
     const ax = (color, axis) => {
       const m = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.025, 1.4, 8), new THREE.MeshBasicMaterial({ color }))
@@ -225,8 +235,11 @@ export default function Experience() {
     tick()
     const onResize = () => { const W = mount.clientWidth, H = mount.clientHeight; camera.aspect = W / H; camera.updateProjectionMatrix(); renderer.setSize(W, H) }
     window.addEventListener('resize', onResize)
+    const ro = new ResizeObserver(onResize)
+    ro.observe(mount)
     return () => {
       cancelAnimationFrame(raf)
+      ro.disconnect()
       window.removeEventListener('resize', onResize)
       window.removeEventListener('mouseup', onUp)
       window.removeEventListener('mousemove', onMove)
@@ -238,102 +251,72 @@ export default function Experience() {
   }, [])
 
   return (
-    <section className="px-[clamp(16px,4vw,72px)] pt-12 pb-32 max-w-[1500px] mx-auto">
-      <header className="mb-10 max-w-2xl">
-        <Reveal>
-          <p className="font-mono text-[11px] tracking-[0.16em] uppercase text-ochre mb-4 inline-flex items-center gap-2 before:content-[''] before:w-6 before:h-px before:bg-ochre">Workspace · 3D</p>
-          <AnimatedText
-            text="Experience."
-            textClassName="font-display text-[clamp(56px,9vw,120px)] !text-left font-light tracking-tight !text-white"
-            underlineClassName="text-ochre"
-          />
-        </Reveal>
-      </header>
-
-      <Reveal>
-        <div className="rounded-md border border-[#0a1430] overflow-hidden shadow-[0_30px_80px_rgba(0,0,0,0.7)] bg-[#05070d] font-[Segoe_UI,Inter,system-ui]">
-          <div className="h-7 px-3 flex items-center justify-between text-[11.5px] text-neutral-300 bg-gradient-to-b from-[#0a1430] to-[#05080f] border-b border-black">
-            <div className="flex items-center gap-2">
-              <svg viewBox="0 0 24 24" width="13" height="13" fill="#1F4FFF"><path d="M2 7l10-5 10 5v10l-10 5L2 17V7z"/></svg>
-              <span className="text-neutral-200">SOLIDWORKS</span>
-              <span className="text-neutral-600">·</span>
-              <span className="text-neutral-400">Assembly1.SLDASM *</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <span className="w-3 h-3 inline-block bg-[#0a1430] rounded-sm" />
-              <span className="w-3 h-3 inline-block bg-[#0a1430] rounded-sm" />
-              <span className="w-3 h-3 inline-block bg-[#600] rounded-sm" />
-            </div>
+    <div className="h-full w-full flex flex-col bg-[#05070d] font-[Segoe_UI,Inter,system-ui] overflow-hidden">
+      <div className="h-7 px-3 flex items-center justify-between text-[11.5px] text-neutral-300 bg-gradient-to-b from-[#0a1430] to-[#05080f] border-b border-black shrink-0">
+        <div className="flex items-center gap-2">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="#1F4FFF"><path d="M2 7l10-5 10 5v10l-10 5L2 17V7z"/></svg>
+          <span className="text-neutral-200">SOLIDWORKS</span>
+          <span className="text-neutral-600">·</span>
+          <span className="text-neutral-400">Assembly1.SLDASM *</span>
+        </div>
+        <div className="flex items-center gap-1.5">
+          <span className="w-3 h-3 inline-block bg-[#0a1430] rounded-sm" />
+          <span className="w-3 h-3 inline-block bg-[#0a1430] rounded-sm" />
+          <span className="w-3 h-3 inline-block bg-[#600] rounded-sm" />
+        </div>
+      </div>
+      <div className="h-7 px-3 flex items-center gap-4 text-[12px] text-neutral-300 bg-[#08101e] border-b border-black shrink-0">
+        {TOP_MENUS.map(m => <span key={m} className="hover:text-ochre cursor-default">{m}</span>)}
+      </div>
+      <div className="h-12 px-3 flex items-center gap-2 bg-[#0a1322] border-b border-black shrink-0">
+        {TOOLBAR.map((b, i) => b ? (
+          <button key={i} title={b.t} className="w-8 h-8 grid place-items-center rounded hover:bg-teal/20 text-neutral-300 hover:text-ochre">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d={b.p} /></svg>
+          </button>
+        ) : <span key={i} className="w-px h-6 bg-[#0a1430] mx-1"/> )}
+        <div className="ml-auto flex items-center gap-2 text-[11px] text-neutral-500 font-mono">
+          <span>view:</span>
+          <select value={view} onChange={e => setView(e.target.value)} className="bg-black border border-[#0a1430] text-neutral-300 rounded px-1.5 py-0.5">
+            {['Isometric','Front','Top','Right','Trimetric','Dimetric'].map(v => <option key={v}>{v}</option>)}
+          </select>
+        </div>
+      </div>
+      <div className="h-8 px-2 flex items-end gap-0 bg-[#05070d] border-b border-black shrink-0 overflow-hidden">
+        {VIEW_TABS.map((t, i) => (
+          <span key={t} className={`px-3 h-7 leading-7 text-[11.5px] rounded-t-sm border-l border-r whitespace-nowrap ${i === 0 ? 'bg-[#0a1322] text-white border-black' : 'text-neutral-500 border-transparent hover:bg-teal/10'}`}>{t}</span>
+        ))}
+      </div>
+      <div className="grid grid-cols-[220px_1fr] flex-1 min-h-0">
+        <aside className="bg-[#05070d] border-r border-black py-2 overflow-auto">
+          <div className="px-3 py-2 text-[11px] text-neutral-500 font-mono uppercase tracking-wider border-b border-[#0a1430] mb-1">Feature Manager</div>
+          {FEATURE_TREE.map((n, i) => <TreeNode key={n.name + i} node={n}/>)}
+        </aside>
+        <div className="relative min-h-0">
+          <div ref={mountRef} className="w-full h-full cursor-grab active:cursor-grabbing"/>
+          <div className="absolute top-3 right-3 w-[72px] h-[72px] perspective-[400px] pointer-events-none">
+            <ViewCube/>
           </div>
-          <div className="h-7 px-3 flex items-center gap-4 text-[12px] text-neutral-300 bg-[#08101e] border-b border-black">
-            {TOP_MENUS.map(m => <span key={m} className="hover:text-ochre cursor-default">{m}</span>)}
+          <div className="absolute bottom-3 left-3 font-mono text-[10px] text-neutral-500 select-none flex gap-3">
+            <span style={{color:'#ff8585'}}>X</span>
+            <span style={{color:'#85ff85'}}>Y</span>
+            <span style={{color:'#1F4FFF'}}>Z</span>
           </div>
-          <div className="h-12 px-3 flex items-center gap-2 bg-[#0a1322] border-b border-black">
-            {TOOLBAR.map((b, i) => b ? (
-              <button key={i} title={b.t} className="w-8 h-8 grid place-items-center rounded hover:bg-teal/20 text-neutral-300 hover:text-ochre">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d={b.p} /></svg>
-              </button>
-            ) : <span key={i} className="w-px h-6 bg-[#0a1430] mx-1"/> )}
-            <div className="ml-auto flex items-center gap-2 text-[11px] text-neutral-500 font-mono">
-              <span>view:</span>
-              <select value={view} onChange={e => setView(e.target.value)} className="bg-black border border-[#0a1430] text-neutral-300 rounded px-1.5 py-0.5">
-                {['Isometric','Front','Top','Right','Trimetric','Dimetric'].map(v => <option key={v}>{v}</option>)}
-              </select>
-            </div>
-          </div>
-          <div className="h-8 px-2 flex items-end gap-0 bg-[#05070d] border-b border-black">
-            {VIEW_TABS.map((t, i) => (
-              <span key={t} className={`px-3 h-7 leading-7 text-[11.5px] rounded-t-sm border-l border-r ${i === 0 ? 'bg-[#0a1322] text-white border-black' : 'text-neutral-500 border-transparent hover:bg-teal/10'}`}>{t}</span>
-            ))}
-          </div>
-          <div className="grid grid-cols-[280px_1fr] min-h-[560px]">
-            <aside className="bg-[#05070d] border-r border-black py-2 overflow-auto" style={{ maxHeight: 720 }}>
-              <div className="px-3 py-2 text-[11px] text-neutral-500 font-mono uppercase tracking-wider border-b border-[#0a1430] mb-1">Feature Manager</div>
-              {FEATURE_TREE.map((n, i) => <TreeNode key={n.name + i} node={n}/>)}
-            </aside>
-            <div className="relative">
-              <div ref={mountRef} className="w-full h-full min-h-[560px] cursor-grab active:cursor-grabbing"/>
-              <div className="absolute top-3 right-3 w-[88px] h-[88px] perspective-[400px] pointer-events-none">
-                <ViewCube/>
-              </div>
-              <div className="absolute bottom-3 left-3 font-mono text-[10px] text-neutral-500 select-none flex gap-3">
-                <span style={{color:'#ff8585'}}>X</span>
-                <span style={{color:'#85ff85'}}>Y</span>
-                <span style={{color:'#1F4FFF'}}>Z</span>
-              </div>
-              <div className="absolute top-3 left-3 px-2.5 py-1 rounded bg-black/60 border border-teal/30 backdrop-blur text-[11px] text-neutral-300 font-mono">
-                <span className="text-ochre">●</span> Live render — Three.js
-              </div>
-            </div>
-          </div>
-          <div className="h-6 px-3 flex items-center justify-between text-[11px] bg-black border-t border-[#0a1430] text-neutral-500 font-mono">
-            <div className="flex gap-4">
-              <span>Editing Assembly</span>
-              <span>Fully Defined</span>
-              <span>Units: <span className="text-neutral-300">MMGS</span></span>
-            </div>
-            <div className="flex gap-4">
-              <span>Drag · Orbit  |  Scroll · Zoom  |  RMB · Pan</span>
-              <span className="text-ochre">●</span>
-            </div>
+          <div className="absolute top-3 left-3 px-2.5 py-1 rounded bg-black/60 border border-teal/30 backdrop-blur text-[11px] text-neutral-300 font-mono">
+            <span className="text-ochre">●</span> Live render — Three.js
           </div>
         </div>
-      </Reveal>
-    </section>
-  )
-}
-
-function ViewCube() {
-  const face = "absolute inset-0 grid place-items-center text-[10px] font-mono tracking-wider text-neutral-200 bg-teal/40 border border-ochre/40"
-  return (
-    <div className="w-full h-full" style={{ transformStyle: 'preserve-3d', transform: 'rotateX(-22deg) rotateY(36deg)', animation: 'cube-rot 18s linear infinite' }}>
-      <style>{`@keyframes cube-rot { from { transform: rotateX(-22deg) rotateY(0deg); } to { transform: rotateX(-22deg) rotateY(360deg); } }`}</style>
-      <div className={face} style={{ transform: 'translateZ(44px)' }}>FRONT</div>
-      <div className={face} style={{ transform: 'rotateY(180deg) translateZ(44px)' }}>BACK</div>
-      <div className={face} style={{ transform: 'rotateY(90deg) translateZ(44px)' }}>RIGHT</div>
-      <div className={face} style={{ transform: 'rotateY(-90deg) translateZ(44px)' }}>LEFT</div>
-      <div className={face} style={{ transform: 'rotateX(90deg) translateZ(44px)' }}>TOP</div>
-      <div className={face} style={{ transform: 'rotateX(-90deg) translateZ(44px)' }}>BOT</div>
+      </div>
+      <div className="h-6 px-3 flex items-center justify-between text-[11px] bg-black border-t border-[#0a1430] text-neutral-500 font-mono shrink-0">
+        <div className="flex gap-4">
+          <span>Editing Assembly</span>
+          <span>Fully Defined</span>
+          <span>Units: <span className="text-neutral-300">MMGS</span></span>
+        </div>
+        <div className="flex gap-4">
+          <span>Drag · Orbit  |  Scroll · Zoom  |  RMB · Pan</span>
+          <span className="text-ochre">●</span>
+        </div>
+      </div>
     </div>
   )
 }
